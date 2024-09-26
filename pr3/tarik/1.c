@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 // Функция сортировки пузырьком по возрастанию
-void bubbleSort(int arr[], int n) {
+int bubbleSort(int arr[], int n) {
     for (int i = 0; i < n - 1; i++) {
         for (int j = 0; j < n - i - 1; j++) {
             if (arr[j] > arr[j + 1]) {
@@ -10,8 +10,10 @@ void bubbleSort(int arr[], int n) {
                 arr[j] = arr[j + 1];
                 arr[j + 1] = temp;
             }
+            else if (arr[j] == arr[j+1]) return 0;
         }
     }
+    return 1;
 }
 
 int main() {
@@ -29,7 +31,8 @@ int main() {
     }
 
     // Сортируем массив координат по возрастанию
-    bubbleSort(a, N);
+    int res = bubbleSort(a, N);
+    if (res) return printf("Не может быть гвоздей с одинаковыми координатами.\n");
 
     // Инициализация начальных значений
     d[0] = 0;
