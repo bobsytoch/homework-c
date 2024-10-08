@@ -1,58 +1,46 @@
 #include <stdio.h>
 #include <time.h>
 
-void bubbleSort(int arr[], int n, int* comparisons, int* swaps) {
-    *comparisons = 0;
-    *swaps = 0;
-    int swapped;
-
+void bubbleSort(int arr[], int n, int* c, int* s) {
+    int swapped; *c = 0; *s = 0;
+    
     for (int i = 0; i < n-1; i++) {
         swapped = 0;
         for (int j = 0; j < n-i-1; j++) {
-            (*comparisons)++;
+            (*c)++;
             if (arr[j] > arr[j+1]) {
-                // Перестановка
                 int temp = arr[j];
                 arr[j] = arr[j+1];
                 arr[j+1] = temp;
-                (*swaps)++;
+                (*s)++;
                 swapped = 1;
             }
         }
-        // Якщо на деякому етапі не було жодної перестановки, то масив уже відсортований
-        if (!swapped) {
-            break;
-        }
+        if (!swapped) break;
     }
-}
-
-// Функція для друку масиву
-void printArray(int arr[], int n) {
-    for (int i = 0; i < n; i++) {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
 }
 
 int main() {
     int comparisons, swaps;
 
-    // Масив для сортування
-    int arr[] = {64, 34, 25, 12, 22, 11, 90};
-    int n = sizeof(arr)/sizeof(arr[0]);
+    int n;
+    printf("Enter array length: ");
+    scanf("%d", &n);
 
-    printf("Original array: \n");
-    printArray(arr, n);
+    printf("Enter array elements (separated by whitespace): ");
+    int arr[n];
+    for (int i = 0; i < n; i++) scanf("%d", &arr[i]);
 
-    clock_t start = clock();
+    clock_t t = clock();
     bubbleSort(arr, n, &comparisons, &swaps);
-    clock_t end = clock();
+    t = clock() - t;
 
     printf("Sorted array: \n");
-    printArray(arr, n);
+    for (int i = 0; i < n; i++) printf("%d ", arr[i]);
+    printf("\n");
 
-    double time_taken = ((double)(end - start)) / CLOCKS_PER_SEC;
-    printf("Time taken: %.6f seconds\n", time_taken);
+    double time_taken = ((double) t) * 1000 / CLOCKS_PER_SEC;
+    printf("Time taken: %.3fms\n", time_taken);
     printf("Comparisons: %d, Swaps: %d\n", comparisons, swaps);
 
     return 0;
