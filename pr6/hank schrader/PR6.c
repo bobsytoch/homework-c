@@ -2,11 +2,15 @@
 #include <stdlib.h>
 #include <time.h>
 
+// Глобальні змінні для підрахунку порівнянь та перестановок
+int comparisons = 0;
+int swaps = 0;
+
 // Функція для обміну двох елементів масиву
 void Swap(int* a, int* b) {
     int temp = *a;
     *a = *b;
-    *b = temp;
+    swaps++;  // Збільшуємо кількість перестановок
 }
 
 // Функція, яка розбиває масив на дві частини навколо опорного елемента p
@@ -19,10 +23,12 @@ int Partition(int arr[], int low, int high) {
         // Знаходить елемент більший за pivot зліва
         while (arr[i] <= p && i < high) {
             i++;
+            comparisons++;  // Збільшуємо кількість порівнянь
         }
         // Знаходить елемент менший за pivot справа
         while (arr[j] > p && j > low) {
             j--;
+            comparisons++;  // Збільшуємо кількість порівнянь
         }
         // Міняє місцями елементи, якщо індекси не перетнулися
         if (i < j) {
@@ -55,11 +61,13 @@ void Heapify(int arr[], int n, int i) {
     if (l < n && arr[l] > arr[largest]) {
         largest = l;
     }
+    comparisons++;  // Збільшуємо кількість порівнянь
 
     // Якщо правий нащадок більший за найбільший елемент
     if (r < n && arr[r] > arr[largest]) {
         largest = r;
     }
+    comparisons++;  // Збільшуємо кількість порівнянь
 
     // Якщо найбільший елемент не корінь, міняємо місцями та рекурсивно викликаємо Heapify
     if (largest != i) {
@@ -133,12 +141,19 @@ int main() {
 
         switch (choice) {
             case 1:
+                comparisons = 0;  // Очищаємо лічильники
+                swaps = 0;
+
                 BestCase(arr, n);
                 start = clock();
                 QuickSort(arr, 0, n - 1);
                 end = clock();
                 time_taken = ((double)(end - start)) / CLOCKS_PER_SEC * 1000000;
                 printf("Best-case QuickSort: Час сортування: %f мікросекунд\n", time_taken);
+                printf("Порівнянь: %d, Перестановок: %d\n", comparisons, swaps);
+
+                comparisons = 0;  // Очищаємо лічильники
+                swaps = 0;
 
                 AverageCase(arr, n);
                 start = clock();
@@ -146,6 +161,10 @@ int main() {
                 end = clock();
                 time_taken = ((double)(end - start)) / CLOCKS_PER_SEC * 1000000;
                 printf("Average-case QuickSort: Час сортування: %f мікросекунд\n", time_taken);
+                printf("Порівнянь: %d, Перестановок: %d\n", comparisons, swaps);
+
+                comparisons = 0;  // Очищаємо лічильники
+                swaps = 0;
 
                 WorstCase(arr, n);
                 start = clock();
@@ -153,15 +172,24 @@ int main() {
                 end = clock();
                 time_taken = ((double)(end - start)) / CLOCKS_PER_SEC * 1000000;
                 printf("Worst-case QuickSort: Час сортування: %f мікросекунд\n", time_taken);
+                printf("Порівнянь: %d, Перестановок: %d\n", comparisons, swaps);
+
                 break;
 
             case 2:
+                comparisons = 0;  // Очищаємо лічильники
+                swaps = 0;
+
                 BestCase(arr, n);
                 start = clock();
                 HeapSort(arr, n);
                 end = clock();
                 time_taken = ((double)(end - start)) / CLOCKS_PER_SEC * 1000000;
                 printf("Best-case HeapSort: Час сортування: %f мікросекунд\n", time_taken);
+                printf("Порівнянь: %d, Перестановок: %d\n", comparisons, swaps);
+                
+                comparisons = 0;  // Очищаємо лічильники
+                swaps = 0;
 
                 AverageCase(arr, n);
                 start = clock();
@@ -169,6 +197,10 @@ int main() {
                 end = clock();
                 time_taken = ((double)(end - start)) / CLOCKS_PER_SEC * 1000000;
                 printf("Average-case HeapSort: Час сортування: %f мікросекунд\n", time_taken);
+                printf("Порівнянь: %d, Перестановок: %d\n", comparisons, swaps);
+ 
+                comparisons = 0;  // Очищаємо лічильники
+                swaps = 0;
 
                 WorstCase(arr, n);
                 start = clock();
@@ -176,6 +208,8 @@ int main() {
                 end = clock();
                 time_taken = ((double)(end - start)) / CLOCKS_PER_SEC * 1000000;
                 printf("Worst-case HeapSort: Час сортування: %f мікросекунд\n", time_taken);
+                printf("Порівнянь: %d, Перестановок: %d\n", comparisons, swaps);
+
                 break;
 
             case 3:
