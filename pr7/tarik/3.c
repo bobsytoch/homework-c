@@ -213,9 +213,8 @@ int tokudaCalc(unsigned int arraySize) {
 int ciuraCalc(unsigned int arraySize) {
     int i, h;
     for (i = 1; ciura[i] < arraySize && i < 9; i++);
-    for (int h = 2.25*ciura[8]; h < arraySize; h*=2.25) i++;
-    printf("%d\n", i);
-    return i;
+    for (int h = 2.25*ciura[8]; h < arraySize; i++, h*=2.25);
+    return i+1;
 }
 
 // shellsort
@@ -254,7 +253,7 @@ void shellSort(int array[], int size, unsigned int gaps[], unsigned int gapCount
     third arg is the size of the generated array to test on
 */
 void testSort(void (*gapsFunction)(unsigned int*, unsigned int, unsigned int), unsigned int gapCount, unsigned int size) {
-    /* DEBUG */ printf("%d\n", gapCount);
+    // /* DEBUG */ printf("%d\n", gapCount);
     unsigned int gaps[gapCount];
     int arr[size];
 
